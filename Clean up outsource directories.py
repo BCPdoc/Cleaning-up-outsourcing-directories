@@ -1,8 +1,10 @@
+#https://stackoverflow.com/questions/3444645/merge-pdf-files
 import shutil
 import os
 import sys
 import tkinter
 from tkinter import filedialog
+from PyPDF2 import PdfMerger
 #import logging
 
 root = tkinter.Tk()
@@ -37,9 +39,25 @@ def moveandclean(root, moveto, folder):
         if len(contents) == 0:
             os.rmdir(folder)
 
+def createRedlinePackage(folder):
+    mergefile = PdfMerger()
+    for folderName, subfolders, filenames in os.walk(folder):
+        for filename in filenames:
+            if os.path.splitext(filename)[1] == '.pdf':
+                mergefile.append(os.path.join(folder, filename))
+    newpath = os.path.join(folder, 'REDLINES')
+    if not os.path.exists( newpath ):
+        os.makedirs(newpath)
+    mergefile.write(os.path.join(newpath, 'REDLINES.pdf'))
+
+
 for folderName, subfolders, filenames in os.walk(root):
     #print('Folder: ' + folderName)
     for subfolder in subfolders:
         #print('-->' + folderName + '/' + subfolder)
         moveandclean(root, root + '/' + subfolder, root + '/' + subfolder)
         
+for folderName, subfolders, filenames in os.walk(root):
+    for subfolder in subfolders:
+        if os.path.isdir(os.path.join(root,subfolder)): #single level only
+            createRedlinePackage(os.path.join(root, subfolder))
