@@ -51,12 +51,12 @@ class App(tk.Tk):
                         mergefile.append(os.path.join(folder, filename))
                         bAddedFile = True
                         #print('adding ' +  os.path.join(folder, filename))
-            newpath = os.path.join(folder, 'REDLINES')
+            newpath = os.path.join(folder, 'COMPILED')
             if not os.path.exists( newpath ):
                 os.makedirs(newpath)
-            #print('writing pdf to ' + os.path.join(newpath, 'REDLINES.pdf'))
+            #print('writing pdf to ' + os.path.join(newpath, 'COMPILED.pdf'))
             if bAddedFile:
-                mergefile.write(os.path.join(newpath, 'REDLINES.pdf'))
+                mergefile.write(os.path.join(newpath, 'COMPILED.pdf'))
 
             
         mainWindowSize='400x100'
@@ -71,7 +71,7 @@ class App(tk.Tk):
         #label_flatten=ttk.Label(self.frame, text = 'Flatten outsourced folders created with the treeview option')
         #label_flatten.grid(row=1, column=0, sticky="w")
         
-        #label_compile=ttk.Label(self.frame, 'Compile pdfs into REDLINE package')
+        #label_compile=ttk.Label(self.frame, 'Merge pdfs into COMPILED package')
         #label_compile.grid(row=2, grid=0, sticky="w")
         
         var_flatten = tk.IntVar()
@@ -82,7 +82,7 @@ class App(tk.Tk):
         check_flatten = tk.Checkbutton(self.frame, text='Flatten outsourced folders created with the treeview option', 
             variable=var_flatten, onvalue=1, offvalue=0)
         check_flatten.grid(row=1, column=0, sticky="w", columnspan=2)
-        check_compile = tk.Checkbutton(self.frame, text='Compile pdfs into REDLINE package',
+        check_compile = tk.Checkbutton(self.frame, text='Merge pdfs into COMPILED package',
             variable=var_compile, onvalue=1, offvalue=0)
         check_compile.grid(row=2, column=0, sticky="w", columnspan=2)
 
@@ -92,10 +92,10 @@ class App(tk.Tk):
 
         def ok_click():
             #https://stackoverflow.com/questions/2963263/how-can-i-create-a-simple-message-box-in-python
-            ctypes.windll.user32.MessageBoxW(0, "Select the directory to clean.\r" + #prompt
+            ctypes.windll.user32.MessageBoxW(0, "Select the directory to process.\r" + #prompt
                                             "This should be the destination directory in the outsourcing function in BidU.\r" +
-                                            "This only works if you outsourced with the Tree View Folders option.",
-                                            "Select folder to clean", #title
+                                            "This works best if you outsourced with the Tree View Folders option.",
+                                            "Select folder to process", #title
                                             0) #0=OK only
 
             root = filedialog.askdirectory()
